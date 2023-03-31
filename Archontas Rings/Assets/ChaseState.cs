@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChaseState : State
+public class ChaseState : AttackBaseState
 {
+    public override StateBehaviour ThisStateType => StateBehaviour.Chase;
+
 
     [Header("Configuration Values")]
     [SerializeField] float minStrafeDistance = 1.5f;
@@ -15,7 +17,6 @@ public class ChaseState : State
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        checkIfStateMachine(sentStateMachine);
         stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
         chaseTime = minChaseStateTime;
     }
@@ -25,7 +26,7 @@ public class ChaseState : State
        // Debug.Log("Stopped chasing!");
     }
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
 
         Vector3 targetDirection = stateMachine.currentTarget.transform.position - transform.position;
@@ -47,14 +48,14 @@ public class ChaseState : State
                 if (g == 1)
                 {
                     //print("STATIOATNATATA");
-                    return stationaryState;
+                    return StateBehaviour.Stationary;
                 }
 
                 if (stateMachine.distanceFromTarget <= minStrafeDistance)
                 {
                     int s = Random.Range(1, 250);
                     if (s == 1)
-                        return strafeState;
+                        return StateBehaviour.Strafe;
 
                 }
             }
@@ -69,13 +70,7 @@ public class ChaseState : State
             else  //(stateMachine.distanceFromTarget <= navMesh.stoppingDistance)
             {
                 stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-                if (stateMachine.canAttack)
-                {
-                    int u = Random.Range(1, 5);
-                    if (u == 1) { 
-                        stateMachine.enemyAnimationManager.PlayTargetAnimation("Light Attack", true, false);
-                        stateMachine.canAttack = false;}
-                }
+                ChanceAttack();
                 
             }
 
@@ -86,7 +81,7 @@ public class ChaseState : State
         chaseTime -= Time.deltaTime;
         HandleRotationTowardsTarget(stateMachine);
 
-        return this;
+        return ThisStateType;
     }
 
 

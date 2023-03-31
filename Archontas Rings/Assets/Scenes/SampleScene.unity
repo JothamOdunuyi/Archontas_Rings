@@ -1030,7 +1030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &70552696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2803,17 +2803,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
+  weapon: {fileID: 8617643226380380848}
   vigor: 35
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 120
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 120
+  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
   healthUI: {fileID: 0}
 --- !u!54 &148452500
 Rigidbody:
@@ -2827,7 +2828,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -2843,6 +2844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a854c1dae08f14d81e3e03c360fe20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
   target: 0
 --- !u!114 &148452505
 MonoBehaviour:
@@ -2871,6 +2876,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e07c9d66e5878d4793c8450fb6cd33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
   minStrafeDistance: 1.8
   minChaseStateTime: 0.45
 --- !u!114 &148452507
@@ -2885,6 +2894,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4e3a5ee27c75b542b700bc1e059edb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
 --- !u!114 &148452508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2897,8 +2910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995cb1476e629cb4082dbd38332048eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_currentState: {fileID: 0}
-  COOLSTUFF: 0
+  CurrentState: 0
   enemyManager: {fileID: 0}
   enemyAnimationManager: {fileID: 0}
   enemyRigidBody: {fileID: 0}
@@ -2915,6 +2927,14 @@ MonoBehaviour:
   minimumDetectionAngle: -50
   distanceFromTarget: 0
   isPerformingAction: 0
+  idleState: {fileID: 0}
+  chaseState: {fileID: 0}
+  strafeState: {fileID: 0}
+  attackState: {fileID: 0}
+  stationaryState: {fileID: 0}
+  deathState: {fileID: 0}
+  directionProgress: 0
+  slerpAddition: 0
 --- !u!114 &148452509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2927,21 +2947,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a662e75f5e9a12e43b5c85793144958c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
   miniTime: 0.77
   maxTime: 2.03
   stationaryTime: 0
---- !u!114 &148452510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148565108795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d525ec444c9fdb94ba92865a0ce77d01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &148452511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2954,6 +2966,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c50f03e47190441be52dfc952d88f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
   miniStrafeTime: 0.2
   maxStrafeTime: 0.5
   strafeTime: 0
@@ -3722,8 +3738,11 @@ MonoBehaviour:
   targetTransform: {fileID: 1893402179}
   cameraTransform: {fileID: 963194228}
   cameraPivotTransform: {fileID: 389888242}
-  lookSpeed: 0.1
-  followSpeed: 0.1
+  ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 1096
+  lookSpeed: 0.15
+  followSpeed: 0.15
   pivotSpeed: 0.03
   minimumPivot: -35
   maximumPivot: 35
@@ -10523,17 +10542,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &389662599
 CapsuleCollider:
@@ -10594,7 +10614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389888241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.09, z: -0.6}
+  m_LocalPosition: {x: 0, y: 1.32, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
@@ -13046,17 +13066,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 500
   health: 500
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 573223806}
 --- !u!136 &556226717
 CapsuleCollider:
@@ -13251,17 +13272,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &562107469
 CapsuleCollider:
@@ -21528,17 +21550,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &968271438
 CapsuleCollider:
@@ -22036,17 +22059,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
+  weapon: {fileID: 0}
   vigor: 100
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
   healthUI: {fileID: 0}
 --- !u!136 &993223444
 CapsuleCollider:
@@ -26375,17 +26399,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1247857466
 CapsuleCollider:
@@ -28559,17 +28584,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1361370853
 CapsuleCollider:
@@ -32008,17 +32034,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 100
   endurance: 10
   maxHealth: 5000
   health: 4900
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 1116384289}
 --- !u!136 &1481321991
 CapsuleCollider:
@@ -32103,17 +32130,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1481395800
 CapsuleCollider:
@@ -32839,17 +32867,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1528324690
 CapsuleCollider:
@@ -36139,17 +36168,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1696628988
 CapsuleCollider:
@@ -37790,17 +37820,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &1796252462
 CapsuleCollider:
@@ -39342,7 +39373,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerManager: {fileID: 0}
-  moveDirection: {x: 0, y: 0, z: 0}
   myTransform: {fileID: 0}
   animationHandler: {fileID: 0}
   rigidbody: {fileID: 0}
@@ -39417,17 +39447,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd026918aa26d9c4f9b4e11b0b4c9727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
+  weapon: {fileID: 1194597042}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 200
   stamina: 0
   staminaRechargeTime: 3.5
   staminaRechargeTimer: 0
   staminaRechargeRate: 30
-  damage: 200
+  damageIndicator: {fileID: 7262984864961751323, guid: 62bd2ba398716fa4db95df91ff5bc5bb, type: 3}
   healthUI: {fileID: 196561326}
   staminaUI: {fileID: 349955578}
   deathUI: {fileID: 70552697}
@@ -41123,17 +41154,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &2002300682
 CapsuleCollider:
@@ -42474,17 +42506,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!54 &2061570871
 Rigidbody:
@@ -42524,17 +42557,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0aed9448b2baa8445850707d982be4f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageIndicator: {fileID: 0}
+  weapon: {fileID: 0}
   vigor: 10
   endurance: 10
   maxHealth: 0
   health: 0
   maxStamina: 0
+  damage: 50
   stamina: 0
   staminaRechargeTime: 3
   staminaRechargeTimer: 0
   staminaRechargeRate: 5
-  damage: 50
+  damageIndicator: {fileID: 0}
   healthUI: {fileID: 0}
 --- !u!136 &2062907722
 CapsuleCollider:
@@ -46858,7 +46892,6 @@ GameObject:
   - component: {fileID: 148452511}
   - component: {fileID: 148452509}
   - component: {fileID: 148452501}
-  - component: {fileID: 148452510}
   - component: {fileID: 919132148565108796}
   m_Layer: 6
   m_Name: POg Sekeltor
@@ -46879,6 +46912,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dab94c614dd8246af8d90cb38f8e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 0}
+  navMesh: {fileID: 0}
+  anim: {fileID: 0}
+  fixedDistance: 0
   deathFadeWaitTime: 5
 --- !u!4 &971560639631100841
 Transform:

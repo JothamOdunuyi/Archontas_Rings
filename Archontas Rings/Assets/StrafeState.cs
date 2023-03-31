@@ -5,9 +5,10 @@ using UnityEditorInternal;
 using UnityEngine;
 using static StrafeState;
 
-public class StrafeState : State
+public class StrafeState : AttackBaseState
 {
-  
+    public override StateBehaviour ThisStateType => StateBehaviour.Strafe;
+
     [Header("Strafe Settings")]
     [SerializeField] private float miniStrafeTime = .2f, maxStrafeTime = 1f, strafeTime;
 
@@ -28,14 +29,12 @@ public class StrafeState : State
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        checkIfStateMachine(sentStateMachine);
         player = stateMachine.currentTarget.transform;
         //HandleRotationTowardsTarget(stateMachine);
         //transform.LookAt(player);
         strafing = false;
         fixedDistance = false;
         strafeTime = Random.Range(miniStrafeTime, maxStrafeTime);
-        stateMachine.navMeshAgent.ResetPath();
         stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
 
 
@@ -54,7 +53,7 @@ public class StrafeState : State
        
     }
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
         if (strafeTime > 0)
         {
@@ -90,28 +89,23 @@ public class StrafeState : State
                 stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", .5f, 0.1f, Time.deltaTime);
 
             }
-            else if(stateMachine.canAttack)
-            {
-                int u = Random.Range(1, 10);
-                if (u == 1) { 
-                    stateMachine.enemyAnimationManager.PlayTargetAnimation("Light Attack", true, false);
-                    stateMachine.canAttack = false;}
-            }
+            ChanceAttack();
 
-            return this;
-       } else {        
-            strafing = false;
-            strafeTime = Random.Range(miniStrafeTime, maxStrafeTime);
-            fixedDistance = false;
+
+
+            return ThisStateType;
+       } else {
+            stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+
 
             int g = Random.Range(1, 5);
             if(g <= 3)
             {
-                return chaseState;
+                return StateBehaviour.Chase;
             }
             else
             {
-                return stationaryState;
+                return StateBehaviour.Stationary;
             }
            
         }

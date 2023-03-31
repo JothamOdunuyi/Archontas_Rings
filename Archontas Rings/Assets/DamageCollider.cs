@@ -15,6 +15,9 @@ namespace KID {
         [SerializeField]
         bool isEnemy;
 
+        bool hitPlayer;
+        List<GameObject> hitEnemies = new List<GameObject>();
+
 
         private void Awake()
         { 
@@ -29,12 +32,14 @@ namespace KID {
 
         public void EnableDamageCollider()
         {
+            hitEnemies.Clear();
             damageCollider.enabled = true;
         }
 
         public void DisableDamageCollider()
         {
             damageCollider.enabled = false;
+            hitPlayer = false;
         }
 
 
@@ -45,8 +50,9 @@ namespace KID {
 
             if (isEnemy)
             {
-                if (hit.transform.root.tag == "Player")
+                if (hit.transform.root.tag == "Player" && !hitPlayer)
                 {
+                    hitPlayer = true;
                     PlayerStats playerStats = hit.transform.root.GetComponent<PlayerStats>();
                     playerStats.TakeDamage(damage);
                 }
@@ -56,13 +62,18 @@ namespace KID {
             {
                 if (hit.tag == "Hittable" || hit.transform.root.tag == "Hittable")
                 {
-                    EnemyStats enemyStats = hit.GetComponent<EnemyStats>() ? hit.GetComponent<EnemyStats>() : hit.transform.root.GetComponent<EnemyStats>();
+                    GameObject hitRoot = hit.transform.root.gameObject;
+                    EnemyStats enemyStats = hit.GetComponent<EnemyStats>() ? hit.GetComponent<EnemyStats>() : hitRoot.GetComponent<EnemyStats>();
 
-                    if(enemyStats)
+                    if (enemyStats && !hitEnemies.Contains(hitRoot))
+                    {
+                        hitEnemies.Add(hitRoot);
                         enemyStats.TakeDamage(damage);
+                    }
+                       
                 }
             }
-
+          
             if (destructibleObject)
             {
                 destructibleObject.TakeDamage(damage);

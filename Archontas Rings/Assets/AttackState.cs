@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AttackState : State
 {
+    public override StateBehaviour ThisStateType => StateBehaviour.Attack;
+
     public bool target;
 
     public override void EnterState(StateMachine sentStateMachine)
@@ -18,13 +20,13 @@ public class AttackState : State
     }
 
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
         Debug.Log("a");
 
         if (target)
-            return this;
+            return StateBehaviour.Attack;
         else
-            return null;
+            return StateBehaviour.None;
     }
 }

@@ -13,7 +13,17 @@ namespace KID
 
         Transform cameraObject;
         private InputHandler inputHandler;
-        public Vector3 moveDirection;
+
+        private Vector3 m_moveDirection;
+        public Vector3 moveDirection { get
+            {
+                m_moveDirection = cameraObject.forward * inputHandler.vertical + cameraObject.right * inputHandler.horizontal;
+                m_moveDirection.Normalize();
+                m_moveDirection.y = 0;
+                return m_moveDirection;
+            }
+        }
+        
 
         [HideInInspector]
         public Transform myTransform;
@@ -75,7 +85,6 @@ namespace KID
 
         private void FaceMoveDirection()
         {
-            moveDirection.y = 0;
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             myTransform.rotation = targetRotation;
         }
@@ -110,10 +119,7 @@ namespace KID
             if (inputHandler.rollFlag || playerManager.isInteracting)
                 return;
 
-            moveDirection = cameraObject.forward * inputHandler.vertical + cameraObject.right * inputHandler.horizontal;
-            moveDirection.Normalize();
-            moveDirection.y = 0;
-
+            
             float speed = movementSpeed;
             if (inputHandler.sprintFlag)
             {
@@ -129,9 +135,7 @@ namespace KID
                
             }
            
-            moveDirection *= speed;
-
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection * speed, normalVector);
             rigidbody.velocity = projectedVelocity;
 
             animationHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
@@ -157,8 +161,6 @@ namespace KID
             {
                 animationHandler.PlayTargetAnimation("Jump", true);
                 playerManager.isGrounded = false;
-                moveDirection = cameraObject.forward * inputHandler.vertical + cameraObject.right * inputHandler.horizontal;
-                moveDirection.y = 0;
                 Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
                 myTransform.rotation = jumpRotation;
 
@@ -173,13 +175,12 @@ namespace KID
 
            if (inputHandler.rollFlag)
             {
-                moveDirection = cameraObject.forward * inputHandler.vertical + cameraObject.right  * inputHandler.horizontal;
-
+                inputHandler.rollFlag = false;
+                anim.SetBool("isInteracting", true);
                 if (inputHandler.moveAmount > 0)
                 {
                     //playerStats.UseStamina(20);
                     animationHandler.PlayTargetAnimation("Rolling", true);
-                    moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
                 }
@@ -298,12 +299,10 @@ namespace KID
 
             if(moveDirection != Vector3.zero)
             {
-                moveDirection = GetMoveDirection();
                 FaceMoveDirection();
             }
 
             //playerStats.UseStamina(8);
-            rigidbody.AddForce(myTransform.forward * 10, ForceMode.Impulse);
            
             animationHandler.PlayTargetAnimation("Light Attack", true);
             playerManager.lastAttack = "Light Attack";
@@ -335,12 +334,10 @@ namespace KID
                 {
                     if (moveDirection != Vector3.zero)
                     {
-                        moveDirection = GetMoveDirection();
                         FaceMoveDirection();
                     }
 
                     //playerStats.UseStamina(8);
-                    rigidbody.AddForce(myTransform.forward * 10, ForceMode.Impulse);
 
                     anim.SetBool("canDoCombo", false);
                     if (playerManager.lastAttack == "Light Attack")

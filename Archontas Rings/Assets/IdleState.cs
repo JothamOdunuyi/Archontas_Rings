@@ -7,21 +7,20 @@ using UnityEngine;
 public class IdleState : State
 {
 
+    public override StateBehaviour ThisStateType => StateBehaviour.Idle; 
 
     public override void EnterState (StateMachine sentStateMachine)
     {
-        print("Entered state idlee");
-        checkIfStateMachine(sentStateMachine);
         stateMachine.navMeshAgent.enabled = true;
     }
 
     public override void ExitState()
     {
-        Debug.Log("Showing HP bar");
+
     }
 
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, stateMachine.detectionRadius, stateMachine.detectionLayer);
 
@@ -37,13 +36,13 @@ public class IdleState : State
                 {
                     stateMachine.currentTarget = characterStats;
                     //print("found character");
-                    return chaseState ;
+                    return StateBehaviour.Chase;
                 }
                
             }
 
         }
-        return this;
+        return ThisStateType;
     }
 
     

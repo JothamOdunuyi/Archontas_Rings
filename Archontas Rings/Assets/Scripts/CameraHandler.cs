@@ -11,7 +11,7 @@ namespace KID
         public Transform cameraPivotTransform;
         private Transform myTransform;
         private Vector3 cameraTransformPosition;
-        private LayerMask ignoreLayers;
+        public LayerMask ignoreLayers;
         private Vector3 cameraFollowVelocity = Vector3.zero;
 
         public static CameraHandler singleton;
@@ -36,7 +36,7 @@ namespace KID
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            ignoreLayers = ~ignoreLayers;
             targetTransform = FindObjectOfType<PlayerManager>().transform;
         }
 

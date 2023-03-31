@@ -9,35 +9,15 @@ using UnityEngine.AI;
 
 public abstract class State : MonoBehaviour
 {
-    /*public EnemyLocomotionManager enemyLocomotionManager;
-    public EnemyManager enemyManager;
-    public EnemyAnimatorManager enemyAnimationManager;
 
-    public CharacterStats currentTarget;
-    public float detectionRadius;
-    public float distanceFromTarget;
-    public float stoppingDistance;
-    public float meleeDistance;
-
-    public NavMeshAgent navMeshAgent;
-    */
-
-    public static StateMachine stateMachine;
-    public static float directionProgress;
-    public static NavMeshAgent navMesh;
-    private float slerpAddition;
-    public static Animator anim;
+    [HideInInspector] public StateMachine stateMachine;
+    [HideInInspector] public NavMeshAgent navMesh;
+    [HideInInspector] public Animator anim;
+     // better to be here, saves performance than in statemachine
+    [HideInInspector] public bool fixedDistance;
 
 
-    public static bool fixedDistance;
-
-    [Header("All States")]
-    [HideInInspector] public static IdleState idleState;
-    [HideInInspector] public static ChaseState chaseState;
-    [HideInInspector] public static StrafeState strafeState;
-    [HideInInspector] public static AttackState attackState;
-    [HideInInspector] public static StationaryState stationaryState;
-    [HideInInspector] public static DeathState deathState;
+    public abstract StateBehaviour ThisStateType { get; }
 
     public void checkIfStateMachine(StateMachine sentStateMachine)
     {
@@ -46,14 +26,6 @@ public abstract class State : MonoBehaviour
             stateMachine = sentStateMachine;
             anim = stateMachine.enemyAnimationManager.anim;
             navMesh = stateMachine.navMeshAgent;
-
-            // Set the States
-            idleState = GetComponent<IdleState>();
-            chaseState = GetComponent<ChaseState>();
-            strafeState = GetComponent<StrafeState>();
-            attackState = GetComponent<AttackState>();
-            stationaryState = GetComponent<StationaryState>();
-            deathState = GetComponent<DeathState>();
         }
       
     }
@@ -81,7 +53,7 @@ public abstract class State : MonoBehaviour
             StartCoroutine(ResetFixedDistance(0f));
         }
     }
-    public abstract State UpdateState();
+    public abstract StateBehaviour UpdateState();
     public abstract void ExitState();
     public abstract void EnterState(StateMachine stateMachine);
 
@@ -100,8 +72,8 @@ public abstract class State : MonoBehaviour
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                directionProgress += stateMachine.rotationSpeed * Time.deltaTime;
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, directionProgress);
+                stateMachine.directionProgress += stateMachine.rotationSpeed * Time.deltaTime;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, stateMachine.directionProgress);
 
             }
             else
@@ -111,8 +83,8 @@ public abstract class State : MonoBehaviour
 
                 stateMachine.navMeshAgent.enabled = true;
                 stateMachine.navMeshAgent.SetDestination(stateMachine.currentTarget.transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, stateMachine.navMeshAgent.transform.rotation, slerpAddition * Time.deltaTime);
-                slerpAddition += stateMachine.navMeshAgent.angularSpeed;
+                transform.rotation = Quaternion.Slerp(transform.rotation, stateMachine.navMeshAgent.transform.rotation, stateMachine.slerpAddition * Time.deltaTime);
+                stateMachine.slerpAddition += stateMachine.navMeshAgent.angularSpeed;
             }
 
         }

@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class DeathState : State
 {
+    public override StateBehaviour ThisStateType => StateBehaviour.Death;
+
     [Header("Configuration Values")]
     [SerializeField] float deathFadeWaitTime = 20f;
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        checkIfStateMachine(sentStateMachine);
         Debug.Log("Entered Death State");
         SetChildrensGravity(transform.Find("root").transform);
         Invoke("RemoveBody", deathFadeWaitTime);
@@ -27,9 +28,9 @@ public class DeathState : State
         transform.root.gameObject.SetActive(false);
     }
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
-        return this;
+        return StateBehaviour.Death;
     }
 
     private void SetChildrensGravity(Transform obj)

@@ -31,9 +31,9 @@ namespace KID
         {
             health -= damage;
             healthUI.SetCurrentHP(health);
-            DamageINC = Instantiate(damageIndicator, transform.position + new Vector3(-1.21f, 1.88f, 0), Quaternion.identity);
+           /* DamageINC = Instantiate(damageIndicator, transform.position + new Vector3(-1.21f, 1.88f, 0), Quaternion.identity);
             DamageINC.GetComponent<TextMesh>().text = damage.ToString();
-            //Destroy(DamageINC, .5f);
+            Destroy(DamageINC, .5f);*/
             /*if (!enemyLocomotionManager && !enemyLocomotionManager.currentTarget)
                 enemyLocomotionManager.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();*/
 

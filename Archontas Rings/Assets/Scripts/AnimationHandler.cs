@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 
 namespace KID
@@ -11,12 +12,14 @@ namespace KID
         private PlayerManager playerManager;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
+        PlayerStats playerStats;
         int vertical;
         int horizontal;
         public bool canRotate;
 
         public void Initialize()
         {
+            playerStats = GetComponentInParent<PlayerStats>();
             playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
@@ -126,6 +129,8 @@ namespace KID
 
         public void EnablePlayerWeaponCollider()
         {
+            playerLocomotion.rigidbody.AddForce(playerLocomotion.transform.forward * 10, ForceMode.Impulse);
+
             GetPlayerWeapon().GetComponent<DamageCollider>().EnableDamageCollider();
         }
 
@@ -144,6 +149,10 @@ namespace KID
             anim.SetBool("canDoCombo", false);
         }
 
-     
+        public void UseStaminafloat (float staminaUsage)
+        {
+            playerStats.UseStamina(staminaUsage);
+        }
+
     }
 }

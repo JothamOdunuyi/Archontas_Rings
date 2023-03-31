@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class StationaryState : State
+public class StationaryState : AttackBaseState
 {
+    public override StateBehaviour ThisStateType => StateBehaviour.Stationary;
+
     [Header("Stationary Settings")]
     [SerializeField] private float miniTime = .2f, maxTime = .65f, stationaryTime;
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        checkIfStateMachine(sentStateMachine);
-        stateMachine.enemyAnimationManager.PlayTargetAnimationWithNoDelay("Locomotion", false, false);
+        stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
         //stateMachine.navMeshAgent.ResetPath();
         stationaryTime = Random.Range(miniTime, maxTime);
         //print("Stationary time is: " + stationaryTime);
@@ -24,7 +25,7 @@ public class StationaryState : State
         //print("Stationary ended!");
     }
 
-    public override State UpdateState()
+    public override StateBehaviour UpdateState()
     {
         //transform.LookAt(stateMachine.currentTarget.transform.position);
         HandleRootMotionCorrection();
@@ -36,28 +37,25 @@ public class StationaryState : State
             int g = Random.Range(1, 6);
             if(g == 1)
             {
-                return strafeState;
+                return StateBehaviour.Strafe;
             }
             else
             {
-                return chaseState;
+                return StateBehaviour.Chase;
             }
         }
 
         if (stateMachine.distanceFromTarget > navMesh.stoppingDistance + .4)
         {
             stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", .5f, 0.1f, Time.deltaTime);
-   
+
         }
-        else if (stateMachine.canAttack)
+        else
         {
-            int u = Random.Range(1, 6);
-            if (u == 1) { 
-                stateMachine.enemyAnimationManager.PlayTargetAnimation("Light Attack", true, false);
-                stateMachine.canAttack = false;}
+            ChanceAttack();
         }
 
-        return this;
+        return ThisStateType;
     }
 
 }
