@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 namespace KID
 {
@@ -14,8 +14,10 @@ namespace KID
         public DeathUI deathUI;
         public AnimationHandler animationHandler;
         public Animator animator;
-
         public GameObject playerWeapon;
+        public bool dead;
+        public int flasks = 3;
+        private GameObject flaskAmountUI;
 
         private void Start()
         {
@@ -27,9 +29,13 @@ namespace KID
             health = maxHealth;
             maxStamina = endurance * 10;
             stamina = maxStamina;
-            
+
+            flaskAmountUI = GameObject.Find("Flask Amount");
+
             healthUI.UpdateAllHealth(health, maxHealth);
             staminaUI.UpdateAllStamina(stamina, maxStamina);
+
+            UpdateFlaskUI();
         }
 
         public void TakeDamage(float damage)
@@ -37,10 +43,15 @@ namespace KID
             health -= damage;
             healthUI.SetCurrentHP(health);
 
-            if(health <= 0)
+            if (health <= 0)
             {
                 // X.X
+                dead = true;
                 animationHandler.PlayTargetAnimation("Death", true);
+                InputHandler inputHandler = GetComponent<InputHandler>();
+                inputHandler.enabled = false;
+                gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                //gameObject.GetComponent<PlayerLocomotion>().enabled = false;
                 deathUI.PlayDeathUI();
             }
             else
@@ -61,10 +72,10 @@ namespace KID
                     staminaUI.SetCurrentStamina(stamina);
                 }
                 else // Tick timer
-                { 
+                {
                     staminaRechargeTimer = Mathf.Clamp(staminaRechargeTimer - 1 * delta, 0, maxStamina);
                 }
-               
+
             }
         }
 
@@ -79,8 +90,20 @@ namespace KID
 
         public void HealFlask()
         {
-            health = Mathf.Clamp(health += maxHealth * .28f, 0, maxHealth);
+            health = Mathf.Clamp(health += maxHealth * .38f, 0, maxHealth);
             healthUI.SetCurrentHP(health);
+            UpdateFlaskUI();
+        }
+
+        public void GainFlask(int amount)
+        {
+            flasks += amount;
+            UpdateFlaskUI();
+        }
+
+        private void UpdateFlaskUI()
+        {
+            flaskAmountUI.GetComponent<Text>().text = flasks.ToString();
         }
     }
 }

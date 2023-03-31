@@ -17,7 +17,7 @@ filters = {
 	spl = true
 }
 scopes = {
-	"last_search.AA9C1166" = "inputhandler"
+	"last_search.AA9C1166" = "enemystat"
 }
 providers = {
 	asset = {

@@ -44,7 +44,9 @@ public abstract class State : MonoBehaviour
         {
 
             fixedDistance = true;
-            stateMachine.enemyAnimationManager.PlayTargetAnimationWithNoDelay("Locomotion", false);
+
+            stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+            
             transform.position = navMesh.transform.position;
 
             stateMachine.navMeshAgent.transform.localPosition = Vector3.zero;

@@ -50,7 +50,7 @@ public class StateMachine : MonoBehaviour
             if (m_canAttack == true && value == false)
             {
                 m_canAttack = value;
-                StartCoroutine(ResetCanAttack(Random.Range(.5f, 2f)));
+                StartCoroutine(ResetCanAttack(Random.Range(.6f, 2f)));
             }
             else
             {
@@ -150,10 +150,15 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    private IEnumerator ResetCanAttack(float waiTime)
+    private IEnumerator ResetCanAttack(float waitTime)
     {
-        yield return new WaitForSeconds(waiTime);
-        canAttack = true;
+        if (!isTicking)
+        {
+            isTicking = true;
+            yield return new WaitForSeconds(waitTime);
+            canAttack = true;
+            isTicking = false;
+        }
     }
 
     private State StateToEnum(StateBehaviour stateEnum)
@@ -179,6 +184,17 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    // Makes sure that while AI is attacking it is not overridden
+/*    public IEnumerator PlayLocomotionAfterPeroforming()
+    {
+        while (isPerformingAction)
+        {
+            yield return new WaitForSeconds(.1f);
+        }
+        enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+        print("Playing Locmotion after waiting for performing action!");
+    }
+*/
 
     /*private void RunCurrentState()
     {

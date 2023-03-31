@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 namespace KID
 {
@@ -29,10 +30,12 @@ namespace KID
 
         [Header("Others")]
         public float rollInputTImer;
-
+        
+        
         PlayerControls inputActions;
         Animator anim;
         PlayerLocomotion locomotion;
+        PlayerStats playerStats;
 
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -42,6 +45,7 @@ namespace KID
         {
             anim = GetComponentInChildren<Animator>();
             locomotion = GetComponent<PlayerLocomotion>();
+            playerStats = GetComponent<PlayerStats>();
 
             {
                 if(inputActions == null)
@@ -59,6 +63,8 @@ namespace KID
         public void OnDisable()
         {
             inputActions.Disable();
+            vertical = 0f;
+            horizontal = 0f;
         }
 
         public void TickInput(float delta)
@@ -68,7 +74,7 @@ namespace KID
             JumpInput(delta);
             LightAndHeavyAttackInput(delta);
             HandleFlaskInut(delta);
-            }
+        }
 
 
         private void HandleFlaskInut(float delta)

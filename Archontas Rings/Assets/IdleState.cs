@@ -11,7 +11,7 @@ public class IdleState : State
 
     public override void EnterState (StateMachine sentStateMachine)
     {
-        stateMachine.navMeshAgent.enabled = true;
+
     }
 
     public override void ExitState()
@@ -23,7 +23,7 @@ public class IdleState : State
     public override StateBehaviour UpdateState()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, stateMachine.detectionRadius, stateMachine.detectionLayer);
-
+       
         for (int i = 0; i < colliders.Length; i++)
         {
             CharacterStats characterStats = colliders[i].GetComponent<CharacterStats>();

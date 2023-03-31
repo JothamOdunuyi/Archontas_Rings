@@ -95,7 +95,7 @@ public class StrafeState : AttackBaseState
 
             return ThisStateType;
        } else {
-            stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+            //stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
 
 
             int g = Random.Range(1, 5);

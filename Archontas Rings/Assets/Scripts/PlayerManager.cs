@@ -45,11 +45,17 @@ namespace KID
             isDrinking = anim.GetBool("isDrinking");
             canDoCombo = anim.GetBool("canDoCombo");
 
-            inputHandler.TickInput(delta);
-            playerLocomotion.HandleMovement(delta);
-            playerLocomotion.HandleRollingAndSprinting(delta);
-            playerLocomotion.HandleJump(delta, anim.GetFloat("ColliderHeight"));
-            playerLocomotion.HandleFlaskHeal(delta);
+
+
+            if (!playerStats.dead)
+            {
+                inputHandler.TickInput(delta);
+                playerLocomotion.HandleMovement(delta);
+                playerLocomotion.HandleRollingAndSprinting(delta);
+                playerLocomotion.HandleJump(delta, anim.GetFloat("ColliderHeight"));
+                playerLocomotion.HandleFlaskHeal(delta);
+            }
+           
             //playerLocomotion.HandleAttack(delta);
 
             playerStats.RegenStamina(delta);
@@ -61,7 +67,7 @@ namespace KID
             float delta = Time.fixedDeltaTime;
 
 
-            if (cameraHandler != null && playerStats.health > 0)
+            if (cameraHandler != null && !playerStats.dead)
             {
                 cameraHandler.FollowTarget(delta);
                 cameraHandler.HandleCameraRotation(delta, inputHandler.mouseX, inputHandler.mouseY);

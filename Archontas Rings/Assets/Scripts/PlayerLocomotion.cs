@@ -367,7 +367,12 @@ namespace KID
             anim.SetBool("isDrinking", true);
             playerManager.isSprinting = false;
             animationHandler.PlayTargetAnimation("Flask Drink", false);
-            playerStats.HealFlask();
+            if(playerStats.flasks > 0)
+            {
+                playerStats.flasks -= 1;
+                playerStats.HealFlask();
+            }
+           
         }
 
     }

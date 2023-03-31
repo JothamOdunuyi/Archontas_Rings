@@ -12,7 +12,6 @@ public class StationaryState : AttackBaseState
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
         //stateMachine.navMeshAgent.ResetPath();
         stationaryTime = Random.Range(miniTime, maxTime);
         //print("Stationary time is: " + stationaryTime);
@@ -30,9 +29,21 @@ public class StationaryState : AttackBaseState
         //transform.LookAt(stateMachine.currentTarget.transform.position);
         HandleRootMotionCorrection();
         HandleRotationTowardsTarget(stateMachine);
-        stationaryTime -= Time.deltaTime;
+        if (!stateMachine.isPerformingAction)
+        {
+            stationaryTime -= Time.deltaTime;
+        }
+        else
+        {
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion"))
+            {
+                stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+            }
+              
+        }
 
-        if(stationaryTime <= 0)
+
+        if (stationaryTime <= 0)
         {
             int g = Random.Range(1, 6);
             if(g == 1)

@@ -10,7 +10,7 @@ namespace KID {
         Collider damageCollider;
 
         [SerializeField]
-        float damage;
+        float damage = 0;
 
         [SerializeField]
         bool isEnemy;
@@ -26,8 +26,7 @@ namespace KID {
             damageCollider.isTrigger = true;
             damageCollider.enabled = false;
 
-            if (gameObject.tag == "PlayerWeapon")
-                damage = damage + GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().damage;
+            damage = damage + transform.root.GetComponent<CharacterStats>().damage;
         }
 
         public void EnableDamageCollider()

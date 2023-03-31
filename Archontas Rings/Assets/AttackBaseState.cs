@@ -22,9 +22,8 @@ public class AttackBaseState : State
             int u = Random.Range(m_min, m_max);
             if (u == 1)
             {
-                print("Attacking in AttackBaseState");
-                stateMachine.enemyAnimationManager.PlayTargetAnimation(m_attack_name, true, false);
                 stateMachine.canAttack = false;
+                stateMachine.enemyAnimationManager.PlayTargetAnimation(m_attack_name, true, false);
             }
         }
     }

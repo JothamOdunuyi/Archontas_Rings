@@ -13,12 +13,12 @@ namespace KID
         private GameObject DamageINC;
         Animator animator;
         EnemyManager enemyManager;
-        EnemyLocomotionManager enemyLocomotionManager;
+        StateMachine enemyStateMachine;
 
 
         private void Start()
         {
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyStateMachine = GetComponent<StateMachine>();
             enemyManager = GetComponent<EnemyManager>();
             animator = GetComponent<Animator>();
             healthUI = GetComponentInChildren<HealthUI>();
@@ -31,11 +31,11 @@ namespace KID
         {
             health -= damage;
             healthUI.SetCurrentHP(health);
-           /* DamageINC = Instantiate(damageIndicator, transform.position + new Vector3(-1.21f, 1.88f, 0), Quaternion.identity);
+            DamageINC = Instantiate(damageIndicator, transform.position + new Vector3(-.5f, 1.88f, 0), Quaternion.identity);
             DamageINC.GetComponent<TextMesh>().text = damage.ToString();
-            Destroy(DamageINC, .5f);*/
-            /*if (!enemyLocomotionManager && !enemyLocomotionManager.currentTarget)
-                enemyLocomotionManager.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();*/
+            Destroy(DamageINC, .25f);
+            if (enemyStateMachine && !enemyStateMachine.currentTarget)
+                enemyStateMachine.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
 
 
 
@@ -53,6 +53,7 @@ namespace KID
                 
                // GetComponent<Collider>().enabled = false;
                 animator.enabled = false;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GainFlask(1);
             }
             else
             {

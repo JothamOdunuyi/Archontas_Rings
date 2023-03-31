@@ -17,7 +17,6 @@ public class ChaseState : AttackBaseState
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
         chaseTime = minChaseStateTime;
     }
 
@@ -41,8 +40,12 @@ public class ChaseState : AttackBaseState
         }
         else
         {
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion"))
+            {
+                stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+            }
 
-            if(chaseTime <= 0)
+            if (chaseTime <= 0)
             {
                 int g = Random.Range(1, 200);
                 if (g == 1)
