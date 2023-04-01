@@ -10,176 +10,104 @@ namespace MobStates
     namespace Torkan
     {
         public class StrafeState : AttackBaseState
-    {
-        public override StateBehaviour ThisStateType => StateBehaviour.Strafe;
-
-        [Header("Strafe Settings")]
-        [SerializeField] private float miniStrafeTime = .2f, maxStrafeTime = 1f, strafeTime;
-
-        [HideInInspector]
-        [Header("Strafe Settings")]
-        private Transform player;
-        private float lerpAddition;
-        private bool strafing;
-
-        public enum StrafeDirection{
-            Right,
-            Left,
-            Back
-        }
-
-        StrafeDirection strafeDirection;
-
-
-        public override void EnterState(StateMachine sentStateMachine)
         {
-            player = stateMachine.currentTarget.transform;
-            //HandleRotationTowardsTarget(stateMachine);
-            //transform.LookAt(player);
-            strafing = false;
-            fixedDistance = false;
-            strafeTime = Random.Range(miniStrafeTime, maxStrafeTime);
-            stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            public override StateBehaviour ThisStateType => StateBehaviour.Strafe;
+
+            [Header("Strafe Settings")]
+            [SerializeField] private float miniStrafeTime = .2f, maxStrafeTime = 1f, strafeTime;
+
+            [HideInInspector]
+            [Header("Strafe Settings")]
+            private Transform player;
+            private float lerpAddition;
+            private bool strafing;
+
+            public enum StrafeDirection{
+                Right,
+                Left,
+                Back
+            }
+
+            int strafeDirection;
 
 
-
-            //print("Strafe time is " + strafeTime);
-        }
-
-        public void SetStrafeDirection(StrafeDirection strafeDirection)
-        {
-
-        }
-
-
-        public override void ExitState()
-        {
-       
-        }
-
-        public override StateBehaviour UpdateState()
-        {
-            if (strafeTime > 0)
+            public override void EnterState(StateMachine sentStateMachine)
             {
+                player = stateMachine.currentTarget.transform;
+                //HandleRotationTowardsTarget(stateMachine);
+                //transform.LookAt(player);
+                strafing = false;
+                fixedDistance = false;
+                strafeTime = Random.Range(miniStrafeTime, maxStrafeTime);
+                stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 0, 0.5f, Time.deltaTime);
 
-                if (!strafing)
+                strafeDirection = Random.Range(1, 2);
+
+                if (strafeDirection == 1)
                 {
-                    // Unity for some reason minuses maxmum range by 1 when using an INT for random
-                    strafeDirection = (StrafeDirection)Random.Range(1, 4);
-
-                    if (strafeDirection == StrafeDirection.Right)
-                    {
-                        stateMachine.enemyAnimationManager.PlayTargetAnimation("Right Strafe", false, false);
-                        //print("Right Strafe!");
-                    }
-                    else if(strafeDirection == StrafeDirection.Left)
-                    {
-                        stateMachine.enemyAnimationManager.PlayTargetAnimation("Left Strafe", false, false);
-                    }
-                    else
-                    {
-                        stateMachine.enemyAnimationManager.PlayTargetAnimation("Back Strafe", false, false);
-                    }
-                    strafing = true;
-                }
-
-                HandleRootMotionCorrection();
-       
-                strafeTime -= Time.deltaTime;
-
-                // Addition needs to be here otherwise navmesh will distance from player too much
-                if (stateMachine.distanceFromTarget > navMesh.stoppingDistance + .4)
-                {
-                    stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", .5f, 0.1f, Time.deltaTime);
-
-                }
-                ChanceAttack();
-
-
-
-                return ThisStateType;
-           } else {
-                //stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
-
-
-                int g = Random.Range(1, 5);
-                if(g <= 3)
-                {
-                    return StateBehaviour.Chase;
+                    stateMachine.enemyAnimationManager.PlayTargetAnimation("Right Strafe", false, true);
+                    //print("Right Strafe!");
                 }
                 else
                 {
-                    return StateBehaviour.Stationary;
+                    stateMachine.enemyAnimationManager.PlayTargetAnimation("Left Strafe", false, true);
                 }
-           
+
+
+
+                //print("Strafe time is " + strafeTime);
             }
-        
-            //return this;
 
-      
-             /*if (strafeTime > 0)
-             {
-                 int g = Random.Range(1, 40);
-                 transform.LookAt(player);
+            public void SetStrafeDirection(StrafeDirection strafeDirection)
+            {
 
-                 print(stateMachine.navMeshAgent.stoppingDistance);
-
-                 if (!strafing)
-                 {
-                     strafing = true;
-                     stateMachine.enemyAnimationManager.PlayTargetAnimation("Right Strafe", false);
+            }
 
 
-                 }
-                 else
-                 {
-                     if (g == 1)
-                     {
-                         stateMachine.enemyAnimationManager.PlayTargetAnimation("Left Strafe", false);
-                     }
-                     if (g == 2)
-                     {
-                         strafing = false;
-                     }
-                 }
+            public override void ExitState()
+            {
+       
+            }
 
-                 transform.position = stateMachine.navMeshAgent.gameObject.transform.position;
+            public override StateBehaviour UpdateState()
+            {
+                if (strafeTime > 0)
+                {
 
-                 stateMachine.navMeshAgent.transform.localPosition = Vector3.zero;
-                 stateMachine.navMeshAgent.transform.localRotation = Quaternion.identity;
+                    if (!strafing)
+                    {
+                        strafing = true;
+                        // Unity for some reason minuses maxmum range by 1 when using an INT for random
+                       
+                      
+                    }
 
-                 strafeTime -= Time.deltaTime;
-             }
-             else
-             {
-                 transform.LookAt(player);
-                 return chaseState;
-             }
+                    HandleRootMotionCorrection();
+       
+                    strafeTime -= Time.deltaTime;
+
+
+
+                    return ThisStateType;
+               } else {
+                    //stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+                    strafing = false;
+
+                    int g = Random.Range(1, 6);
+                    if(g <= 3)
+                    {
+                        return StateBehaviour.Chase;
+                    }
+                    else
+                    {
+                        return StateBehaviour.Stationary;
+                    }
+           
+                }
+
+            }
+
+
         }
-
-            //HandleRotationTowardsTarget(stateMachine);
-            return this;*/
-
-
-            // Vector3 targetDir = player.position - transform.position;
-            //Vector3 strafeDir = Vector3.Cross(targetDir, transform.up);
-            //stateMachine.navMeshAgent.SetDestination(Vector3.zero);
-            // stateMachine.navMeshAgent.Move(Vector3.zero);
-
-            //HandleRotationTowardsTarget(stateMachine);
-            //stateMachine.enemyRigidBody.velocity = strafeDir * 10;
-            //stateMachine.navMeshAgent.SetDestination(Vector3.zero);
-            //stateMachine.enemyRigidBody.velocity = Vector3.zero;
-            //stateMachine.navMeshAgent.SetDestination(stateMachine.currentState.transform.position);
-
-
-
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(strafeDir), Time.deltaTime * lerpAddition);
-            //lerpAddition += strafeSpeed;
-            //transform.position = stateMachine.enemyAnimationManager.anim.rootPosition;
-        }
-
-
-    }
     }
 }

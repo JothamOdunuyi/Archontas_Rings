@@ -19,7 +19,7 @@ namespace KID
         {
             enemyManager = GetComponent<EnemyManager>();
             animator = GetComponent<Animator>();
-            healthUI = GetComponentInChildren<HealthUI>();
+            healthUI = !healthUI? GetComponentInChildren<HealthUI>() : healthUI ;
             maxHealth = vigor * 50;
             health = maxHealth;
             healthUI.UpdateAllHealth(health, maxHealth);

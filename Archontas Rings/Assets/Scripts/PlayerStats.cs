@@ -47,11 +47,12 @@ namespace KID
             {
                 // X.X
                 dead = true;
-                animationHandler.PlayTargetAnimation("Death", true);
+                animationHandler.PlayTargetAnimationWithNoDelay("Death", true);
                 InputHandler inputHandler = GetComponent<InputHandler>();
                 inputHandler.enabled = false;
                 gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 //gameObject.GetComponent<PlayerLocomotion>().enabled = false;
+                animationHandler.PlayTargetAnimationWithNoDelay("Death", true);
                 deathUI.PlayDeathUI();
             }
             else
