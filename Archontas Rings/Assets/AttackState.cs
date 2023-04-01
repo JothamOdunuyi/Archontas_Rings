@@ -10,7 +10,7 @@ public class AttackState : State
 
     public override void EnterState(StateMachine sentStateMachine)
     {
-        checkIfStateMachine(sentStateMachine);
+        //checkIfStateMachine(sentStateMachine);
     }
 
 

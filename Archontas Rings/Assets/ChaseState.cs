@@ -40,7 +40,7 @@ public class ChaseState : AttackBaseState
         }
         else
         {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion"))
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Locomotion") && !stateMachine.isPerformingAction)
             {
                 stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
             }

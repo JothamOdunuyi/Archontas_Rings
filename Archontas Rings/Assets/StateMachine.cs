@@ -142,7 +142,7 @@ public class StateMachine : MonoBehaviour
 
     private void RunCurrentState()
     {
-        State potentialNewState = StateToEnum(currentState.UpdateState());
+        State potentialNewState = EnumToState(currentState.UpdateState());
 
         if (potentialNewState != currentState)
         {
@@ -161,7 +161,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    private State StateToEnum(StateBehaviour stateEnum)
+    public State EnumToState(StateBehaviour stateEnum)
     {
         switch (stateEnum)
         {
