@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AttackState : State
+namespace MobStates
+{
+    namespace Torkan
+    {
+        public class AttackState : State
 {
     public override StateBehaviour ThisStateType => StateBehaviour.Attack;
 
@@ -28,5 +31,7 @@ public class AttackState : State
             return StateBehaviour.Attack;
         else
             return StateBehaviour.None;
+    }
+}
     }
 }

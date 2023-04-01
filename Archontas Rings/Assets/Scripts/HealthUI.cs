@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using MobStates;
 
 namespace KID
 {
@@ -33,11 +34,7 @@ namespace KID
 
             slider.value = health;
 
-            // Set enemy in death state if they are not
-            if (isEnemy && health <= 0 && transform.root.GetComponent<StateMachine>().currentState.GetType() != typeof(DeathState)) { 
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.root.GetComponent<StateMachine>().currentState = transform.root.GetComponent<DeathState>();
-            }
+         
         }
     }
 }

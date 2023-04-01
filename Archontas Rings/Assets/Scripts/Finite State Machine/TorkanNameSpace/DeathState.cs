@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class DeathState : State
+namespace MobStates
+{
+    namespace Torkan
+    {
+    public class DeathState : State
 {
     public override StateBehaviour ThisStateType => StateBehaviour.Death;
 
@@ -47,5 +50,7 @@ public class DeathState : State
             }
         }
 
+    }
+}
     }
 }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEditorInternal;
 using UnityEngine;
 
-public class StationaryState : AttackBaseState
+public class Torkan_StationaryState : Torkan_AttackBaseState
 {
     public override StateBehaviour ThisStateType => StateBehaviour.Stationary;
 
     [Header("Stationary Settings")]
     [SerializeField] private float miniTime = .2f, maxTime = .65f, stationaryTime;
 
-    public override void EnterState(StateMachine sentStateMachine)
+    public override void EnterState(Torkan_StateMachine sentStateMachine)
     {
         //stateMachine.navMeshAgent.ResetPath();
         stationaryTime = Random.Range(miniTime, maxTime);
@@ -39,14 +39,14 @@ public class StationaryState : AttackBaseState
             {
                 stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
             }
-              
+
         }
 
 
         if (stationaryTime <= 0)
         {
             int g = Random.Range(1, 6);
-            if(g == 1)
+            if (g == 1)
             {
                 return StateBehaviour.Strafe;
             }

@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ChaseState : AttackBaseState
+namespace MobStates
+{
+    namespace Skeletor
+    {
+        public class ChaseState : AttackBaseState
 {
     public override StateBehaviour ThisStateType => StateBehaviour.Chase;
 
@@ -90,4 +94,6 @@ public class ChaseState : AttackBaseState
 
 
 
+}
+    }
 }

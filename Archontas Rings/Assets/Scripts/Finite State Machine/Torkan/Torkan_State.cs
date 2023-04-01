@@ -7,19 +7,19 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class State : MonoBehaviour
+public abstract class Torkan_State : MonoBehaviour
 {
 
-    [HideInInspector] public StateMachine stateMachine;
+    [HideInInspector] public Torkan_StateMachine stateMachine;
     [HideInInspector] public NavMeshAgent navMesh;
     [HideInInspector] public Animator anim;
-     // better to be here, saves performance than in statemachine
+    // better to be here, saves performance than in statemachine
     [HideInInspector] public bool fixedDistance;
 
 
     public abstract StateBehaviour ThisStateType { get; }
 
-    public void checkIfStateMachine(StateMachine sentStateMachine)
+    public void checkIfStateMachine(Torkan_StateMachine sentStateMachine)
     {
         if (!stateMachine)
         {
@@ -27,7 +27,7 @@ public abstract class State : MonoBehaviour
             anim = stateMachine.enemyAnimationManager.anim;
             navMesh = stateMachine.navMeshAgent;
         }
-      
+
     }
 
     private IEnumerator ResetFixedDistance(float waiTime)
@@ -46,7 +46,7 @@ public abstract class State : MonoBehaviour
             fixedDistance = true;
 
             stateMachine.enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
-            
+
             transform.position = navMesh.transform.position;
 
             stateMachine.navMeshAgent.transform.localPosition = Vector3.zero;
@@ -57,9 +57,9 @@ public abstract class State : MonoBehaviour
     }
     public abstract StateBehaviour UpdateState();
     public abstract void ExitState();
-    public abstract void EnterState(StateMachine stateMachine);
+    public abstract void EnterState(Torkan_StateMachine stateMachine);
 
-    public void HandleRotationTowardsTarget(StateMachine stateMachine)
+    public void HandleRotationTowardsTarget(Torkan_StateMachine stateMachine)
     {
         {
             if (stateMachine.isPerformingAction)
@@ -95,6 +95,6 @@ public abstract class State : MonoBehaviour
         stateMachine.navMeshAgent.transform.localRotation = Quaternion.identity;
     }
 
-   
+
 
 }

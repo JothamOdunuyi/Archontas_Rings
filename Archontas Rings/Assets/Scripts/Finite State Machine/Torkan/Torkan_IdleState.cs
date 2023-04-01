@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
-public class IdleState : State
+public class Torkan_IdleState : Torkan_State
 {
 
-    public override StateBehaviour ThisStateType => StateBehaviour.Idle; 
+    public override StateBehaviour ThisStateType => StateBehaviour.Idle;
 
-    public override void EnterState (StateMachine sentStateMachine)
+    public override void EnterState(Torkan_StateMachine sentStateMachine)
     {
 
     }
@@ -23,7 +23,7 @@ public class IdleState : State
     public override StateBehaviour UpdateState()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, stateMachine.detectionRadius, stateMachine.detectionLayer);
-       
+
         for (int i = 0; i < colliders.Length; i++)
         {
             CharacterStats characterStats = colliders[i].GetComponent<CharacterStats>();
@@ -38,13 +38,13 @@ public class IdleState : State
                     //print("found character");
                     return StateBehaviour.Chase;
                 }
-               
+
             }
 
         }
         return ThisStateType;
     }
 
-    
-   
+
+
 }

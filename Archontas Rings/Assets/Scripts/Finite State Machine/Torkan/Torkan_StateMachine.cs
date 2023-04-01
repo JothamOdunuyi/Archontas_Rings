@@ -6,22 +6,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.LowLevel;
 
-public enum StateBehaviour {
-    None,
-    Idle,
-    Chase,
-    Attack,
-    Strafe,
-    Stationary,
-    Death
-}
 
-public class StateMachine : MonoBehaviour
+public class Torkan_StateMachine : MonoBehaviour
 {
     #region currentState and canAttack Properties
     // currentState property values
-    private State m_currentState;
-    public State currentState
+    private Torkan_State m_currentState;
+    public Torkan_State currentState
     {
         get { return m_currentState; }
         set
@@ -85,15 +76,14 @@ public class StateMachine : MonoBehaviour
     public bool isPerformingAction;
 
     [Header("All States")]
-    [HideInInspector] public IdleState idleState;
-    [HideInInspector] public ChaseState chaseState;
-    [HideInInspector] public StrafeState strafeState;
-    [HideInInspector] public AttackState attackState;
-    [HideInInspector] public StationaryState stationaryState;
-    [HideInInspector] public DeathState deathState;
+    [HideInInspector] public Torkan_IdleState idleState;
+    [HideInInspector] public Torkan_ChaseState chaseState;
+    [HideInInspector] public Torkan_StrafeState strafeState;
+    [HideInInspector] public Torkan_StationaryState stationaryState;
+    [HideInInspector] public Torkan_DeathState deathState;
 
     [Header("State Values")]
-    public static StateMachine stateMachine;
+    public static Torkan_StateMachine stateMachine;
     public float directionProgress;
     public float slerpAddition;
 
@@ -106,19 +96,17 @@ public class StateMachine : MonoBehaviour
 
         void SetUpStateVals()
         {
-            idleState = GetComponent<IdleState>();
-            chaseState = GetComponent<ChaseState>();
-            strafeState = GetComponent<StrafeState>();
-            attackState = GetComponent<AttackState>();
-            stationaryState = GetComponent<StationaryState>();
-            deathState = GetComponent<DeathState>();
+            idleState = GetComponent<Torkan_IdleState>();
+            chaseState = GetComponent<Torkan_ChaseState>();
+            strafeState = GetComponent<Torkan_StrafeState>();
+            stationaryState = GetComponent<Torkan_StationaryState>();
+            deathState = GetComponent<Torkan_DeathState>();
 
             // States no longer have to call this on EnterState
             // Making it only happen once
             idleState.checkIfStateMachine(this);
             chaseState.checkIfStateMachine(this);
             strafeState.checkIfStateMachine(this);
-            attackState.checkIfStateMachine(this);
             stationaryState.checkIfStateMachine(this);
             deathState.checkIfStateMachine(this);
 
@@ -142,7 +130,7 @@ public class StateMachine : MonoBehaviour
 
     private void RunCurrentState()
     {
-        State potentialNewState = EnumToState(currentState.UpdateState());
+        Torkan_State potentialNewState = EnumToState(currentState.UpdateState());
 
         if (potentialNewState != currentState)
         {
@@ -161,7 +149,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    public State EnumToState(StateBehaviour stateEnum)
+    public Torkan_State EnumToState(StateBehaviour stateEnum)
     {
         switch (stateEnum)
         {
@@ -172,7 +160,7 @@ public class StateMachine : MonoBehaviour
             case StateBehaviour.Chase:
                 return chaseState;
             case StateBehaviour.Attack:
-                return attackState;
+                return null;
             case StateBehaviour.Strafe:
                 return strafeState;
             case StateBehaviour.Stationary:
@@ -185,16 +173,16 @@ public class StateMachine : MonoBehaviour
     }
 
     // Makes sure that while AI is attacking it is not overridden
-/*    public IEnumerator PlayLocomotionAfterPeroforming()
-    {
-        while (isPerformingAction)
+    /*    public IEnumerator PlayLocomotionAfterPeroforming()
         {
-            yield return new WaitForSeconds(.1f);
+            while (isPerformingAction)
+            {
+                yield return new WaitForSeconds(.1f);
+            }
+            enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
+            print("Playing Locmotion after waiting for performing action!");
         }
-        enemyAnimationManager.PlayTargetAnimation("Locomotion", false, false);
-        print("Playing Locmotion after waiting for performing action!");
-    }
-*/
+    */
 
     /*private void RunCurrentState()
     {

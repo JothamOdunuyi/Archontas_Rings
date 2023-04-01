@@ -13,12 +13,10 @@ namespace KID
         private GameObject DamageINC;
         Animator animator;
         EnemyManager enemyManager;
-        StateMachine enemyStateMachine;
 
 
         private void Start()
         {
-            enemyStateMachine = GetComponent<StateMachine>();
             enemyManager = GetComponent<EnemyManager>();
             animator = GetComponent<Animator>();
             healthUI = GetComponentInChildren<HealthUI>();
@@ -34,9 +32,7 @@ namespace KID
             DamageINC = Instantiate(damageIndicator, transform.position + new Vector3(-.5f, 1.88f, 0), Quaternion.identity);
             DamageINC.GetComponent<TextMesh>().text = damage.ToString();
             Destroy(DamageINC, .25f);
-            if (enemyStateMachine && !enemyStateMachine.currentTarget)
-                enemyStateMachine.currentTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-
+          
 
 
 

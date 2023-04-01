@@ -20,6 +20,7 @@ namespace KID
                 m_moveDirection = cameraObject.forward * inputHandler.vertical + cameraObject.right * inputHandler.horizontal;
                 m_moveDirection.Normalize();
                 m_moveDirection.y = 0;
+
                 return m_moveDirection;
             }
         }
