@@ -1,0 +1,68 @@
+using KID;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+namespace MobStates
+{
+    namespace Torkan
+    {
+        public class DeathState : State
+        {
+            public override StateBehaviour ThisStateType => StateBehaviour.Death;
+
+            [Header("Configuration Values")]
+            [SerializeField] float deathFadeWaitTime = 20f;
+            [SerializeField] DeathUI bossDefeatedUI;
+
+            public override void EnterState(StateMachine sentStateMachine)
+            {
+                Debug.Log("Entered Death State");
+                //SetChildrensGravity(transform.Find("root").transform);
+                audioManager.PlaySound("Torkan Death", gameObject, .5f);
+
+                audioManager.GetComponent<AudioSource>().Play();
+                audioManager.transform.Find("Boss Music").GetComponent<AudioSource>().Stop();
+                audioManager.PlaySound("Boss Defeated", gameObject, .4f);
+                bossDefeatedUI.PlayDeathUI();
+                Destroy(bossDefeatedUI.gameObject, 5);
+                Destroy(GameObject.Find("Torkan Boss HP"));
+                anim.Play("Death");
+                Invoke("RemoveBody", deathFadeWaitTime);
+                
+
+                //Give souls
+            }
+
+            public override void ExitState()
+            {
+                Debug.Log("Somehow this enemy got resurrected!!");
+            }
+
+            private void RemoveBody()
+            {
+                transform.root.gameObject.SetActive(false);
+            }
+
+            public override StateBehaviour UpdateState()
+            {
+                return StateBehaviour.Death;
+            }
+
+            private void SetChildrensGravity(Transform obj)
+            {
+                if (obj.childCount > 0)
+                {
+                    for (int i = 0; i < obj.childCount; i++)
+                    {
+                        if (obj.GetChild(i).GetComponent<Rigidbody>()){
+                            obj.GetChild(i).GetComponent<Rigidbody>().useGravity = true;
+                        }
+
+                        SetChildrensGravity(obj.GetChild(i).transform);
+                    }
+                }
+
+            }
+        }
+    }
+}
