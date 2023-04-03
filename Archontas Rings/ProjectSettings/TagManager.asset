@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Boss HP UI
   - Audio Manager
+  - Difficulty
   layers:
   - Default
   - TransparentFX
