@@ -11,7 +11,8 @@
                     "id": "4aebad26-a2b2-4ef0-836f-1ce7ffebd2af",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Camera",
@@ -19,7 +20,8 @@
                     "id": "fb4c4493-ee49-4805-ae60-80824a3bde85",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -112,7 +114,8 @@
                     "id": "55dd3641-efc0-49d2-a7f8-f5d49ceb9285",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -120,7 +123,8 @@
                     "id": "93d1f2c3-2373-488b-b0c5-3eae8256fda4",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -128,7 +132,8 @@
                     "id": "94ce1837-08d5-43ae-a136-366cf2bef142",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Flask",
@@ -136,7 +141,17 @@
                     "id": "55bb8dc3-3b24-4ef1-a1cf-fd37b9ba55cf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "ca2d4582-4f81-4ba8-ac3d-3d65ff6d105d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -175,8 +190,30 @@
                 },
                 {
                     "name": "",
+                    "id": "e25e8936-8b2c-45aa-9a29-5fc98ce4d054",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a40883dd-7726-4e35-b72a-2328c860cc67",
                     "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5d699ca-6062-4ad7-b128-44f1eed799ce",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -192,6 +229,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Flask",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb21d393-3a1f-4d86-a402-453dafdff55c",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Flask",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "480bf6c3-9a33-4b84-b541-1172076d217e",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1cd78d36-1c2d-4720-aaa0-28865e750915",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -19,6 +19,7 @@ namespace KID
         public bool jump_input;
         public bool lightAttack_input;
         public bool flask_input;
+        public bool pause_input;
 
         [Header("Flags")]
         public bool rollFlag;
@@ -39,6 +40,7 @@ namespace KID
 
         Vector2 movementInput;
         Vector2 cameraInput;
+        GameObject pauseCanvas;
 
 
         public void OnEnable()
@@ -46,6 +48,8 @@ namespace KID
             anim = GetComponentInChildren<Animator>();
             locomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
+            pauseCanvas = GameObject.Find("Pause Canvas");
+            pauseCanvas.SetActive(false);
 
             {
                 if(inputActions == null)
@@ -74,12 +78,22 @@ namespace KID
             JumpInput(delta);
             LightAndHeavyAttackInput(delta);
             HandleFlaskInut(delta);
+            PauseGame();
         }
 
+        private void PauseGame()
+        {
+            pause_input = inputActions.PlayerActions.Pause.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
+            if (pause_input)
+            {
+                pauseCanvas.SetActive(true);
+                Time.timeScale = 0;
+            }
+        }
 
         private void HandleFlaskInut(float delta)
         {
-            flask_input = inputActions.PlayerActions.Flask.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            flask_input = inputActions.PlayerActions.Flask.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
             if (flask_input)
             {
@@ -105,7 +119,7 @@ namespace KID
     
         private void HandleRollInput(float delta)
         {
-            b_input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            b_input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
             if (b_input)
             {
                 rollInputTImer += delta;
@@ -125,7 +139,7 @@ namespace KID
 
         private void JumpInput(float delta)
         {
-            jump_input = inputActions.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            jump_input = inputActions.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
             if (jump_input)
                 jumpFlag = true;
@@ -134,7 +148,7 @@ namespace KID
 
         private void LightAndHeavyAttackInput(float delta)
         {
-            lightAttack_input = inputActions.PlayerActions.Attack.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            lightAttack_input = inputActions.PlayerActions.Attack.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
 
             if (lightAttack_input)
             {

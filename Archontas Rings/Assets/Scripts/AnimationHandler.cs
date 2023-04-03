@@ -111,7 +111,7 @@ namespace KID
 
         private void OnAnimatorMove()
         {
-            if (!playerManager.isInteracting)
+            if (!playerManager.isInteracting || Time.timeScale == 0)
                 return;
 
             float delta = Time.deltaTime;
@@ -173,6 +173,17 @@ namespace KID
         public void DisableCanBeHit()
         {
             playerManager.canBeHit = false;
+        }
+
+        public void EnableWeaponTrail()
+        {
+            playerLocomotion.trailEffect.gameObject.SetActive(true);
+        }
+
+
+        public void DisableWeaponTrail()
+        {
+            playerLocomotion.trailEffect.gameObject.SetActive(false);
         }
 
 

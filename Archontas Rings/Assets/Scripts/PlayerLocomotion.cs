@@ -16,6 +16,8 @@ namespace KID
 
         Transform cameraObject;
         private InputHandler inputHandler;
+        [SerializeField] ParticleSystem healEffect;
+        [SerializeField] public ParticleSystem trailEffect;
 
         private Vector3 m_moveDirection;
         public Vector3 moveDirection { get
@@ -283,6 +285,8 @@ namespace KID
                         Debug.Log("You were in the air for + " + inAirTimer);
                         animationHandler.PlayTargetAnimation("Hard Land", true);
                         audioManager.PlaySound("Player Grunt");
+                        playerStats.health -= inAirTimer * 200;
+                        playerStats.healthUI.SetCurrentHP(playerStats.health);
                     }
                     else
                     {
@@ -334,6 +338,7 @@ namespace KID
                 }
             }
         }
+
 
         public void HandleAttack(float delta)
         {
@@ -416,6 +421,7 @@ namespace KID
             if(playerStats.flasks > 0)
             {
                 playerStats.flasks -= 1;
+                healEffect.Play();
                 playerStats.HealFlask();
                 anim.SetBool("isDrinking", true);
                 audioManager.PlaySound("Heal Flask", .1f);

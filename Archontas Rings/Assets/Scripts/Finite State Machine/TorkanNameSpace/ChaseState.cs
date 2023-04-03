@@ -71,8 +71,8 @@ namespace MobStates
                         // Addition needs to be here otherwise navmesh will distance from player too much
                         if (stateMachine.distanceFromTarget > navMesh.stoppingDistance+.4)
                         {
-                        ChanceAttack(1, 180, new string[] { "Tusk Attack RM", "Wegihted Poke RM"}); //", 
-                        stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 1f, 0.1f, Time.deltaTime);
+                            ChanceAttack(1, 180, new string[] { "Tusk Attack RM", "Wegihted Poke RM"}); //", 
+                            stateMachine.enemyAnimationManager.anim.SetFloat("Vertical", 1f, 0.1f, Time.deltaTime);
 
                         }
                         else  //(stateMachine.distanceFromTarget <= navMesh.stoppingDistance)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -17,6 +18,7 @@ namespace KID
         public Animator animator;
         public GameObject playerWeapon;
         public bool dead;
+        public float respawnTime = 5;
         public int flasks = 3;
         private GameObject flaskAmountUI;
         AudioManager audioManager;
@@ -39,6 +41,12 @@ namespace KID
             staminaUI.UpdateAllStamina(stamina, maxStamina);
 
             UpdateFlaskUI();
+        }
+
+        IEnumerator Tick_RespawnTime()
+        {
+            yield return new WaitForSeconds(respawnTime);
+            SceneManager.LoadScene("Game Scene");
         }
 
         public void TakeDamage(float damage)
@@ -67,6 +75,7 @@ namespace KID
                 //gameObject.GetComponent<PlayerLocomotion>().enabled = false;
                 animationHandler.PlayTargetAnimationWithNoDelay("Death", true);
                 deathUI.PlayDeathUI();
+                StartCoroutine(Tick_RespawnTime());
             }
             else
             {

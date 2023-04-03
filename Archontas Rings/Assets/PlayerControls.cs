@@ -137,7 +137,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Jump"",
@@ -161,6 +161,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": ""Flask"",
                     ""type"": ""Button"",
                     ""id"": ""55bb8dc3-3b24-4ef1-a1cf-fd37b9ba55cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca2d4582-4f81-4ba8-ac3d-3d65ff6d105d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -203,8 +212,30 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""e25e8936-8b2c-45aa-9a29-5fc98ce4d054"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a40883dd-7726-4e35-b72a-2328c860cc67"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5d699ca-6062-4ad7-b128-44f1eed799ce"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -220,6 +251,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Flask"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb21d393-3a1f-4d86-a402-453dafdff55c"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flask"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""480bf6c3-9a33-4b84-b541-1172076d217e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1cd78d36-1c2d-4720-aaa0-28865e750915"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -238,6 +302,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_Attack = m_PlayerActions.FindAction("Attack", throwIfNotFound: true);
         m_PlayerActions_Flask = m_PlayerActions.FindAction("Flask", throwIfNotFound: true);
+        m_PlayerActions_Pause = m_PlayerActions.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -342,6 +407,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_Attack;
     private readonly InputAction m_PlayerActions_Flask;
+    private readonly InputAction m_PlayerActions_Pause;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -350,6 +416,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @Attack => m_Wrapper.m_PlayerActions_Attack;
         public InputAction @Flask => m_Wrapper.m_PlayerActions_Flask;
+        public InputAction @Pause => m_Wrapper.m_PlayerActions_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -371,6 +438,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Flask.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFlask;
                 @Flask.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFlask;
                 @Flask.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnFlask;
+                @Pause.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -387,6 +457,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Flask.started += instance.OnFlask;
                 @Flask.performed += instance.OnFlask;
                 @Flask.canceled += instance.OnFlask;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -402,5 +475,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnFlask(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

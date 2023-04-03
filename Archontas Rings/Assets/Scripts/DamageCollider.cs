@@ -10,7 +10,7 @@ namespace KID {
         Collider damageCollider;
 
         [SerializeField]
-        float damage = 0;
+        public float damage = 0;
 
         [SerializeField]
         bool isEnemy;

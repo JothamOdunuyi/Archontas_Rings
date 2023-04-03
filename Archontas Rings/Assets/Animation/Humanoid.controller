@@ -108,6 +108,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-8645594314397267463
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607fe9ce8b6b0b546986d7008fa518ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 1
+  OnEnter: 0
+  OnExit: 1
 --- !u!114 &-8149047232182508812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,6 +266,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -2193048552894612967}
   - {fileID: -8877091919584164353}
+  - {fileID: -8645594314397267463}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -544,6 +560,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79da24ae9ed16fa49aa54a40fbf2a05e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-816318740684725480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607fe9ce8b6b0b546986d7008fa518ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 1
+  OnEnter: 1
+  OnExit: 1
 --- !u!1102 &-771013183249777014
 AnimatorState:
   serializedVersion: 6
@@ -595,6 +626,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-455521915292476009
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607fe9ce8b6b0b546986d7008fa518ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 1
+  OnEnter: 1
+  OnExit: 1
 --- !u!114 &-440149486580307551
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -660,6 +706,7 @@ AnimatorState:
   - {fileID: 4847183181077486627}
   - {fileID: 6646617457587195103}
   - {fileID: -5274219130478416915}
+  - {fileID: -816318740684725480}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1163,6 +1210,7 @@ AnimatorState:
   - {fileID: -7630684438071714591}
   - {fileID: 4756266095806995269}
   - {fileID: 7255372919886499378}
+  - {fileID: -455521915292476009}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
