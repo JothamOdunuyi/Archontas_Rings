@@ -13,7 +13,7 @@ public class DestructibleObject : MonoBehaviour
 
     private void Break()
     {
-        Instantiate(destroyedObj, transform.position, transform.rotation);
+        Destroy(Instantiate(destroyedObj, transform.position, transform.rotation), 20);
         Destroy(gameObject);
     }
 

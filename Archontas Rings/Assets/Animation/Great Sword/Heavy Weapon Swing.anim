@@ -55091,6 +55091,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1.1
+    functionName: PlaySound
+    data: Player Weapon Swing
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.2333333
     functionName: DisablePlayerWeaponCollider
     data: 

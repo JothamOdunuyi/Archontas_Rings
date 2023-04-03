@@ -38,7 +38,7 @@ namespace KID
         [HideInInspector]
         public AnimationHandler animationHandler;
 
-        public new Rigidbody rigidbody;
+        public Rigidbody rigidbody;
         [Tooltip("Mad")]
         public CapsuleCollider capsuleCollider;
         public GameObject normalCamera;
@@ -62,7 +62,7 @@ namespace KID
         float minimumDistanceNeededToBeginFall = 1f;
         [SerializeField]
         float groundDirectionRayDistance = 0.2f;
-        LayerMask ignoreForGroundCheck;
+        [SerializeField] LayerMask ignoreForGroundCheck;
         public float inAirTimer;
       
 
@@ -83,7 +83,7 @@ namespace KID
             animationHandler.Initialize();
 
             playerManager.isGrounded = true;
-            ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
+            //ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
             audioManager = GameObject.FindGameObjectWithTag("Audio Manager").GetComponent<AudioManager>();
 
         }

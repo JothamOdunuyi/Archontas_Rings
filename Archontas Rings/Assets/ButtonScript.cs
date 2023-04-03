@@ -35,7 +35,7 @@ public class ButtonScript : MonoBehaviour
 
     public void Button_Play()
     {
-        audioManager.PlaySound("Button Click", .7f);
+        audioManager.PlaySound("Button Play Not Needed", .7f);
         SceneManager.LoadScene("Game Scene");
     }
 

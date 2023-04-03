@@ -104,6 +104,7 @@ namespace KID {
             if (destructibleObject)
             {
                 destructibleObject.TakeDamage(damage);
+                audioManager.PlaySound("Crate break", gameObject, .1f);
             }
            
         }
